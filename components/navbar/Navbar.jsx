@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React from 'react'
 
 const Navbar = () => {
@@ -8,7 +9,11 @@ const Navbar = () => {
             <div>
                 <input type='text' placeholder='Search Movie'/>
             </div>
-            <p>Submit Review</p>
+            <Link href='/reviews' legacyBehavior>
+                <a>
+                    All Reviews
+                </a>
+            </Link>
         </div>
     </header>
   )
