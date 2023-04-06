@@ -18,13 +18,7 @@ export const getStaticPaths = async () => {
     });
   } catch (err) {}
   return {
-    paths: paths
-      ? paths
-      : [
-          {
-            params: { slug: "adhm" },
-          },
-        ],
+    paths: paths ? paths : [],
     fallback: false,
   };
 };
