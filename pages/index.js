@@ -26,13 +26,16 @@ export default function Home({ moviesData }) {
 }
 
 export const getStaticProps = async () => {
-  const response = await fetch("http://localhost:4000/hindiMovies");
-  const moviesData = await response.json();
+  let moviesData;
+  try {
+    const response = await fetch("http://localhost:4000/hindiMovies");
+    moviesData = await response.json();
+  } catch (err) {}
+
+  const props = moviesData ? { moviesData } : {};
 
   return {
-    props: {
-      moviesData,
-    },
+    props,
     revalidate: 10,
   };
 };
