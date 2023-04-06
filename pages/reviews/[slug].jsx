@@ -1,5 +1,4 @@
 import React from "react";
-import fs from "fs";
 
 const Review = ({ movieDetails }) => {
   return <div>{movieDetails?.title}</div>;
@@ -8,11 +7,11 @@ const Review = ({ movieDetails }) => {
 export default Review;
 
 export const getStaticPaths = async () => {
-  const files = fs.readdirSync("data");
-  const paths = files.map((item) => {
-    const pathName = item.split(".");
+  const res = await fetch("http://localhost:4000/hindiMovies");
+  const movies = await res.json();
+  const paths = movies.map((item) => {
     return {
-      params: { slug: pathName[0] },
+      params: { slug: item.id },
     };
   });
   return {
