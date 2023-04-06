@@ -2,7 +2,6 @@ import Head from "next/head";
 import { Inter } from "next/font/google";
 import Navbar from "@/components/navbar/Navbar";
 import { MovieList } from "@/components/movielist/MovieList";
-import fs from "fs";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,25 +19,19 @@ export default function Home({ moviesData }) {
       </Head>
       <section>
         <Navbar />
-        <MovieList 
-          moviesData = {moviesData}
-        />
+        <MovieList moviesData={moviesData} />
       </section>
     </>
   );
 }
 
 export const getStaticProps = async () => {
-  const files = fs.readdirSync("data");
-  const moviesData = files.map((file) => {
-    const content = fs.readFileSync(`data/${file}`, "utf-8");
-    const movieData = JSON.parse(content);
-    return movieData;
-  });
+  const response = await fetch("http://localhost:4000/hindiMovies");
+  const moviesData = await response.json();
 
   return {
     props: {
-      moviesData
+      moviesData,
     },
   };
 };
