@@ -7,23 +7,42 @@ const Review = ({ movieDetails }) => {
 export default Review;
 
 export const getStaticPaths = async () => {
-  const res = await fetch("http://localhost:4000/hindiMovies");
-  const movies = await res.json();
-  const paths = movies.map((item) => {
-    return {
-      params: { slug: item.id },
-    };
-  });
+  let paths;
+  try {
+    const res = await fetch("http://localhost:4000/hindiMovies");
+    const movies = await res.json();
+    paths = movies.map((item) => {
+      return {
+        params: { slug: item.id },
+      };
+    });
+  } catch (err) {}
   return {
-    paths,
+    paths: paths
+      ? paths
+      : [
+          {
+            params: { slug: "adhm" },
+          },
+        ],
     fallback: false,
   };
 };
 
 export const getStaticProps = async (context) => {
   const movieName = context.params.slug;
-  const res = await fetch(`http://localhost:4000/hindiMovies/${movieName}`);
-  const movieDetails = await res.json();
+  let movieDetails;
+  try {
+    const res = await fetch(`http://localhost:4000/hindiMovies/${movieName}`);
+    movieDetails = await res.json();
+  } catch (err) {}
+
+  if (!movieDetails) {
+    return {
+      notFound: true,
+    };
+  }
+
   return {
     props: {
       movieDetails,

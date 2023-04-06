@@ -4,7 +4,7 @@ const Reviews = ({ moviesData }) => {
   return (
     <div>
       <h2>Reviews</h2>
-      {moviesData.map((movie) => {
+      {moviesData?.map((movie) => {
         return <p key={movie.id}>{movie.title}</p>;
       })}
     </div>
@@ -14,13 +14,16 @@ const Reviews = ({ moviesData }) => {
 export default Reviews;
 
 export const getStaticProps = async () => {
-  const res = await fetch("http://localhost:4000/hindiMovies");
-  const moviesData = await res?.json();
+  let moviesData;
+  try {
+    const res = await fetch("http://localhost:4000/hindiMovies");
+    moviesData = await res?.json();
+  } catch (err) {}
+
+  const props = moviesData ? { moviesData } : {};
 
   return {
-    props: {
-      moviesData,
-    },
+    props,
     revalidate: 10,
   };
 };
