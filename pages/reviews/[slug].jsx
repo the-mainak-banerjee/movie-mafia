@@ -19,7 +19,7 @@ export const getStaticPaths = async () => {
   } catch (err) {}
   return {
     paths: paths ? paths : [],
-    fallback: false,
+    fallback: true,
   };
 };
 
@@ -31,7 +31,7 @@ export const getStaticProps = async (context) => {
     movieDetails = await res.json();
   } catch (err) {}
 
-  if (!movieDetails) {
+  if (!movieDetails.id) {
     return {
       notFound: true,
     };
