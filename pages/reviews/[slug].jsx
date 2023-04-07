@@ -33,7 +33,7 @@ export const getStaticProps = async (context) => {
 
   if (!movieDetails.id) {
     return {
-      notFound: true,
+      notFound: blocking,
     };
   }
 
